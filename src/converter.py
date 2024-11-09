@@ -1,9 +1,10 @@
 from io import BytesIO
-from logging import exception
 from rdkit import Chem
 from rdkit.Chem import Draw
+import zipfile
 import re
 from tools import micro_hash
+
 
 supported_formats = [
     "BLP",
@@ -46,3 +47,17 @@ def convert_smiles(smiles: str, format: str) -> BytesIO:
     bin_image.seek(0)
 
     return bin_image
+
+
+def convert_many_smiles_and_zip(smiles: list[tuple[str, str]]) -> BytesIO:
+    zip_file = BytesIO()
+
+    with zipfile.ZipFile(zip_file, "w") as zip:
+        for smile, format in smiles:
+            image = convert_smiles(smile, format)
+            zip.writestr(
+                f"{sanitize_file_name(smile)}.{format.lower()}", image.getvalue()
+            )
+    zip_file.seek(0)
+
+    return zip_file
