@@ -1,0 +1,9 @@
+services:
+  smiles-render-web:
+    build: .
+    container_name: smiles-render-web
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    network_mode: "host"
