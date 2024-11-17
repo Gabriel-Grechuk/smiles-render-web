@@ -4,6 +4,7 @@ from rdkit.Chem import Draw
 import zipfile
 import re
 from tools import micro_hash
+from os import path
 
 
 supported_formats = [
@@ -58,6 +59,32 @@ def convert_many_smiles_and_zip(smiles: list[tuple[str, str]]) -> BytesIO:
             zip.writestr(
                 f"{sanitize_file_name(smile)}.{format.lower()}", image.getvalue()
             )
+    zip_file.seek(0)
+
+    return zip_file
+
+
+def convert_many_named_smiles_and_zip(smiles: list[tuple[str, str]]) -> BytesIO:
+    zip_file = BytesIO()
+
+    already_assigned_names: list[str] = []
+
+    with zipfile.ZipFile(zip_file, "w") as zip:
+        for smile, name in smiles:
+            name = name.lower()
+
+            original_format = path.splitext(name)[1].replace(".", "")
+            format = original_format if valid_format(original_format) else "png"
+
+            name = name.replace(original_format, format)
+
+            if name in already_assigned_names:
+                name = "duplicated-" + name
+
+            already_assigned_names.append(name)
+
+            image = convert_smiles(smile, format)
+            zip.writestr(f"{name}", image.getvalue())
     zip_file.seek(0)
 
     return zip_file

@@ -1,5 +1,11 @@
+from io import TextIOWrapper
 from flask import Flask, request, send_file
-from converter import convert_many_smiles_and_zip, convert_smiles
+from converter import (
+    convert_many_named_smiles_and_zip,
+    convert_many_smiles_and_zip,
+    convert_smiles,
+)
+from tools import read_csv
 
 app = Flask(__name__)
 
@@ -58,11 +64,14 @@ def render_by_json():
                     print("This item have a invalid type... It will be ignored")
 
             zip_file = convert_many_smiles_and_zip(smiles_to_convert)
-            return send_file(
-                zip_file,
-                mimetype="application/zip",
-                as_attachment=True,
-                download_name="smiles_images.zip",
+            return (
+                send_file(
+                    zip_file,
+                    mimetype="application/zip",
+                    as_attachment=True,
+                    download_name="smiles_images.zip",
+                ),
+                200,
             )
 
         return "Ok", 200
@@ -87,4 +96,49 @@ def render_smiles(smiles: str):
 
 @app.route("/render/csv", methods=["POST"])
 def render_by_csv():
-    return "Coming soon!"
+    try:
+        input = request.files["csv"]
+        if not input or input.filename == "":
+            return "No csv file in payload", 400
+
+        smiles_column = request.form.get("smiles_column")
+        names_column = request.form.get("names_column")
+        delimiter = request.form.get("delimiter") or ","
+        file = TextIOWrapper(input.stream, encoding="utf-8")
+
+        if not smiles_column:
+            return "Smiles column is not defined", 400
+
+        data = read_csv(
+            file=file,
+            smiles_column=smiles_column,
+            names_column=names_column,
+            delimiter=delimiter,
+        )
+
+        if names_column:
+            zip_file = convert_many_named_smiles_and_zip(data)
+            return (
+                send_file(
+                    zip_file,
+                    mimetype="application/zip",
+                    as_attachment=True,
+                    download_name="smiles_images.zip",
+                ),
+                200,
+            )
+        else:
+            zip_file = convert_many_smiles_and_zip(data)
+            return (
+                send_file(
+                    zip_file,
+                    mimetype="application/zip",
+                    as_attachment=True,
+                    download_name="smiles_images.zip",
+                ),
+                200,
+            )
+
+    except Exception as err:
+        print(err)
+        return f'Could not convert smiles: "{err}"', 412
