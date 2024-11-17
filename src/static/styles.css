@@ -1,0 +1,132 @@
+body {
+  font-family: 'Times New Roman', Times, serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+  background-color: #333333;
+  color: #fff;
+  width: 100%;
+}
+
+.smilesrender {
+  font-weight: bold;
+  font-size: 26px;
+  margin: 25px;
+}
+
+.github-link {
+  margin: 25px;
+}
+
+.page-footer {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  background-color: #333;
+  color: #fff;
+  align-items: center;
+}
+
+.separator {
+  height: inherit;
+  border-left: 2px solid;
+  margin: 0px 5px 0px 5px;
+}
+
+.footer-text {
+  margin: 0px 5px 0px 5px;
+}
+
+.footer-text i {
+  font-size: 12px;
+}
+
+.footer-icons {
+  margin: 0px 5px 0 5px;
+}
+
+.footer-icons a {
+  margin: 2px;
+}
+
+.footer-icons a i {
+  font-size: 18px;
+}
+
+/* The rest of the page */
+
+h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.page-content {
+  flex: 1;
+  padding: 20px;
+  width: 90%;
+}
+
+.page-content p {
+  font-size: 16px;
+}
+
+.smiles-input {
+  box-shadow: 3px 5px 10px #333333;
+  padding: 20px;
+}
+
+.input-container p {
+  margin-bottom: 10px;
+}
+
+.input-container button {
+  margin-right: 10px;
+}
+
+#smiles-input-string {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+.rendered-images {
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
+
+.smiles-image {
+  margin: 10px;
+  padding: 5px
+}
+
+.smiles-image p {
+  text-align: center;
+  margin: 10px;
+}
+
+.smiles-image img {
+  box-shadow: 1px 1px 10px #333333;
+  max-width: 100%;
+}

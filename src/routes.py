@@ -1,11 +1,12 @@
 from io import TextIOWrapper
-from flask import Flask, request, send_file
+from flask import Flask, render_template, request, send_file
 from converter import (
     convert_many_named_smiles_and_zip,
     convert_many_smiles_and_zip,
     convert_smiles,
 )
 from tools import read_csv
+
 
 app = Flask(__name__)
 
@@ -17,16 +18,7 @@ def ping():
 
 @app.route("/")
 def index():
-    return """
-    <html>
-        <head>
-            <title>SMILES render</title>
-        </head>
-        <body>
-            <h1>Coming soon!</h1>
-        </body>
-    </html>
-    """
+    return render_template("index.html")
 
 
 @app.route("/render", methods=["POST"])
