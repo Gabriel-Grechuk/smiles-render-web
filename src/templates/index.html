@@ -6,18 +6,55 @@
     <title>Smiles Render</title>
     <link rel="stylesheet" href="static/reset.css" />
     <link rel="stylesheet" href="static/styles.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-  
-    <div class="input-container">
-        <label for="inputString">Enter a smiles:</label>
-        <input type="text" id="inputString" placeholder="Type something...">
-        <button onclick="fetchImage()">Submit</button>
+
+    <header class="page-header">
+      <a href="/"><div class="smilesrender"><h1>Smiles Render</h1></div></a>
+      <a href="https://github.com/Gabriel-Grechuk/smiles-render-web" target="_blank">
+        <div class="github-link">
+          <i class="bi bi-github"></i> Checkout the Github page
+        </div>
+      </a>
+    </header>
+
+    <div class="page-content">
+
+      <div class="smiles-input">
+        <h2>Direct input</h2>
+        <div class="input-container">
+          <p>
+            <label for="smiles-input-string">Enter your smiles:</label>
+          </p>
+          <textarea id="smiles-input-string" rows="6" cols="70">CCCCCCCC
+C0CCCCC0C0CCCCC0</textarea>
+          </br>
+          <button onclick="renderImages()">Render</button>
+          <button onclick="downloadImages()">Download</button>
+        </div>
+
+        <div id="rendered-images" class="rendered-images">
+        </div>
+      </div>
+
     </div>
-  
-    <div id="image-container">
-    </div>
-  
+
+    <footer class="page-footer">
+      <span class="footer-text"
+        >Made with <i class="bi bi-heart-fill heart" style="color: red"></i> by
+        Gabe
+      </span>
+      <div class="footer-icons">
+        <a href="https://github.com/Gabriel-Grechuk" target="_blank"
+          ><i class="bi bi-github"></i
+        ></a>
+      </div>
+    </footer>
+
     <script src="static/main.js"></script>
   </body>
 </html>
