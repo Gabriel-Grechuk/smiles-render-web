@@ -41,7 +41,6 @@ def render_by_json():
             smiles_to_convert: list[tuple[str, str]] = []
             registered_smiles: list[str] = []
 
-            print("The smiles field is a list")
             for item in smiles:
                 if type(item) == str:
                     if not item in registered_smiles:
@@ -49,10 +48,14 @@ def render_by_json():
                         registered_smiles.append(item)
 
                 elif type(item) == dict:
-                    print("This item is a dict!")
+                    if not item["smiles"]:
+                        print("No smiles found... It will be ignored")
+                        continue
+
+                    smiles_to_convert.append((item["smiles"], item["format"] or format))
 
                 else:
-                    print("This item have a invalid type...")
+                    print("This item have a invalid type... It will be ignored")
 
             zip_file = convert_many_smiles_and_zip(smiles_to_convert)
             return send_file(
