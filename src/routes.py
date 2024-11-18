@@ -1,3 +1,4 @@
+import base64
 from io import TextIOWrapper
 from flask import Flask, render_template, request, send_file
 from converter import (
@@ -6,6 +7,7 @@ from converter import (
     convert_smiles,
 )
 from tools import read_csv
+from base64 import b64decode
 
 
 app = Flask(__name__)
@@ -76,6 +78,7 @@ def render_by_json():
 @app.route("/render/<string:smiles>", methods=["GET"])
 def render_smiles(smiles: str):
     try:
+        print(smiles)
         format = request.args.get("format") or "png"
         image = convert_smiles(smiles, format.lower())
 
@@ -130,6 +133,20 @@ def render_by_csv():
                 ),
                 200,
             )
+
+    except Exception as err:
+        print(err)
+        return f'Could not convert smiles: "{err}"', 412
+
+
+@app.route("/render/base64/<string:smiles>", methods=["GET"])
+def render_base64_smiles(smiles: str):
+    try:
+        decoded_smiles = b64decode(smiles.encode("utf-8")).decode("utf-8")
+        format = request.args.get("format") or "png"
+        image = convert_smiles(decoded_smiles, format.lower())
+
+        return send_file(image, f"image/{format}"), 200
 
     except Exception as err:
         print(err)
