@@ -1,10 +1,9 @@
 body {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   display: flex;
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-
 }
 
 a {
@@ -118,12 +117,19 @@ h2 {
 
 .smiles-image {
   margin: 10px;
-  padding: 5px
+  padding: 5px;
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  max-width: 90%;
 }
 
 .smiles-image p {
   text-align: center;
   margin: 10px;
+  max-width: 100%;
 }
 
 .smiles-image img {
