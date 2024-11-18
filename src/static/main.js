@@ -11,7 +11,10 @@ function renderImages() {
     node.className = "smiles-image";
 
     const image = document.createElement("img");
-    image.setAttribute("src", `/render/${smiles}`);
+    image.setAttribute(
+      "src",
+      `/render/base64/${encodeURIComponent(window.btoa(smiles))}`,
+    );
     image.setAttribute("alt", smiles);
 
     const desc = document.createElement("p");
