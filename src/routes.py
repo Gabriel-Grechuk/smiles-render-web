@@ -1,4 +1,3 @@
-import base64
 from io import TextIOWrapper
 from flask import Flask, render_template, request, send_file
 from converter import (
@@ -26,8 +25,11 @@ def index():
 def render_by_json():
     try:
         data = request.get_json()
-        format: str = data["format"] or "png"
-        smiles = data["smiles"]
+        format: str = data["format"] if "format" in list(data) else "png"
+        keep_duplicates: bool = (
+            data["keep-duplicates"] if "keep-duplicates" in list(data) else False
+        )
+        smiles = data["smiles"] if "smiles" in list(data) else None
 
         if not smiles:
             return 'Invalid request! The payload should contain a "smiles" field!', 412
@@ -44,7 +46,8 @@ def render_by_json():
                 if type(item) == str:
                     if not item in registered_smiles:
                         smiles_to_convert.append((item, "", format))
-                        registered_smiles.append(item)
+                        if not keep_duplicates:
+                            registered_smiles.append(item)
 
                 elif type(item) == dict:
                     if not item["smiles"]:

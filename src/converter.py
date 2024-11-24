@@ -61,7 +61,7 @@ def convert_many_smiles_and_zip(smiles: list[tuple[str, str, str]]) -> BytesIO:
             if not name:
                 name = sanitize_file_name(smile)
 
-            if used_names_cout[name]:
+            if name in list(used_names_cout):
                 used_names_cout[name] += 1
                 name = f"{name} {used_names_cout[name]}"
 
