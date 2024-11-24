@@ -45,6 +45,6 @@ def read_csv(
         if names_column:
             names.append(row[names_column].strip())
         else:
-            names.append("png")
+            names.append("")
 
     return list(zip(smiles, names))
