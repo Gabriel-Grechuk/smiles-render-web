@@ -51,7 +51,7 @@ C0CCCCC0C0CCCCC0</textarea>
             <p>
               <label for="csv-file">CSV file:</label>
             </p>
-            <input type="file" id="csv-file" name="csv-file">
+            <input type="file" id="csv-file" name="csv-file" accept=".csv">
           </div>
 
           <div class="csv-input-card">
@@ -86,9 +86,10 @@ C0CCCCC0C0CCCCC0</textarea>
           </div>
 
         </div>
+        <button onclick="renderFromCSV()">Render</button>
         <button onclick="downloadFromCSV()">Download</button>
 
-        <div id="rendered-images" class="rendered-images">
+        <div id="csv-rendered-images" class="rendered-images">
         </div>
       </div>
 
