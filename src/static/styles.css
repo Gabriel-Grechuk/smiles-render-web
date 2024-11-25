@@ -78,7 +78,7 @@ h2 {
 
 .page-content {
   flex: 1;
-  padding: 20px;
+  padding: 25px;
   width: 90%;
 }
 
@@ -87,8 +87,9 @@ h2 {
 }
 
 .smiles-input {
-  box-shadow: 3px 5px 10px #333333;
+  box-shadow: 2px 4px 10px #333333;
   padding: 20px;
+  margin-bottom: 40px;
 }
 
 .input-container p {
@@ -106,6 +107,16 @@ h2 {
   resize: vertical;
 }
 
+.csv-input {
+  box-shadow: 2px 4px 10px #333333;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+.csv-input-container {
+  display: block;
+}
+
 .rendered-images {
   margin: 20px;
   display: flex;
@@ -114,6 +125,16 @@ h2 {
   align-content: center;
   justify-content: center;
 }
+
+.csv-input-card {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.csv-input-card p {
+  margin-bottom: 5px;
+}
+
 
 .smiles-image {
   margin: 10px;
@@ -135,4 +156,9 @@ h2 {
 .smiles-image img {
   box-shadow: 1px 1px 10px #333333;
   max-width: 100%;
+}
+
+.input-error p {
+  color: red;
+  font-size: 12px;
 }

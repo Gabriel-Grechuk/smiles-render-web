@@ -56,3 +56,63 @@ function downloadImages() {
       console.error("Error downloading the file:", error);
     });
 }
+
+function renderFromCSV() {
+  console.log("Rendering from CSV");
+}
+
+function resetErrosElements(ids) {
+  for (const id of ids) document.getElementById(id).innerHTML = "";
+}
+
+function downloadFromCSV() {
+  resetErrosElements(["csv-file-error", "csv-smiles-column-error"]);
+
+  const csvFile = document.getElementById("csv-file").files[0];
+  const csvSmilesColumn = document.getElementById("csv-smiles-column").value;
+  const csvNamesColumn = document.getElementById("csv-names-column").value;
+  const csvFormat = document.getElementById("csv-format").value;
+  const csvDelimiter = document.getElementById("csv-delimiter").value;
+
+  if (!csvFile) {
+    console.error("CSV file should be selected");
+    document.getElementById("csv-file-error").innerHTML = "*Select a CSV file";
+    return 1;
+  }
+
+  if (!csvSmilesColumn) {
+    console.error("No name for smiles column in CSV");
+    document.getElementById("csv-smiles-column-error").innerHTML =
+      "*Required smiles column name";
+    return 1;
+  }
+
+  const form = new FormData();
+  form.append("csv", csvFile);
+  form.append("smiles_column", csvSmilesColumn);
+  if (csvNamesColumn) form.append("names_column", csvNamesColumn);
+  if (csvDelimiter) form.append("delimiter", csvDelimiter);
+  if (csvFormat) form.append("format", csvFormat);
+
+  fetch("/render/csv", {
+    method: "POST",
+    body: form,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Could not get response from network");
+      }
+      return response.blob();
+    })
+    .then((blob) => {
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.href = url;
+      link.download = "smiles.zip";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    })
+    .catch((err) => console.error(err));
+}

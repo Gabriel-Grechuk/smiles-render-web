@@ -41,6 +41,58 @@ C0CCCCC0C0CCCCC0</textarea>
         </div>
       </div>
 
+      <div class="csv-input">
+        <h2>Convert from CSV</h2>
+        <div class="csv-input-container">
+          <div class="csv-input-card">
+            <div class="input-error">
+              <p id=csv-file-error></p>
+            </div>
+            <p>
+              <label for="csv-file">CSV file:</label>
+            </p>
+            <input type="file" id="csv-file" name="csv-file">
+          </div>
+
+          <div class="csv-input-card">
+            <div class="input-error">
+              <p id=csv-smiles-column-error></p>
+            </div>
+            <p>
+              <label for="csv-smiles-column">Enter name of smiles column:</label>
+            </p>
+            <input type="text" id="csv-smiles-column" name="csv-smiles-column">
+          </div>
+
+          <div class="csv-input-card">
+            <p>
+              <label for="csv-names-column">Enter the name of molecules column (optional):</label>
+            </p>
+            <input type="text" id="csv-names-column" name="csv-name-column">
+          </div>
+
+          <div class="csv-input-card">
+            <p>
+              <label for="csv-format">Enter the generated files format (optional):</label>
+            </p>
+            <input type="text" id="csv-format" name="csv-format" value="png">
+          </div>
+
+          <div class="csv-input-card">
+            <p>
+              <label for="csv-delimiter">Enter the CSV delimiter (optional):</label>
+            </p>
+            <input type="text" id="csv-delimiter" name="fname" value=",">
+          </div>
+
+        </div>
+        <button onclick="renderFromCSV()">Render</button>
+        <button onclick="downloadFromCSV()">Download</button>
+
+        <div id="rendered-images" class="rendered-images">
+        </div>
+      </div>
+
     </div>
 
     <footer class="page-footer">
