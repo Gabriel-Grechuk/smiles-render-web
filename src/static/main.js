@@ -48,7 +48,6 @@ function downloadImages() {
       link.href = url;
       link.download = "smiles.zip";
       document.body.appendChild(link);
-      11;
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
