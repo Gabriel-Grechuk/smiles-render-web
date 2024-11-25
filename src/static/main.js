@@ -57,8 +57,102 @@ function downloadImages() {
     });
 }
 
+function parseCSV(text, delimiter) {
+  const lines = text.split("\n");
+  const columns = [];
+  for (const line of lines) columns.push(line.split(delimiter));
+  return columns;
+}
+
+function getCSVColumn(csvData, name) {
+  const index = csvData[0].indexOf(name);
+  if (index === -1) return [];
+
+  return csvData
+    .map((row) => row[index])
+    .filter((cell) => {
+      if (cell === name) return null;
+      return cell;
+    });
+}
+
+function zip(arr1, arr2) {
+  return arr1.map((element, i) => [element, arr2[i]]);
+}
+
 function renderFromCSV() {
-  console.log("Rendering from CSV");
+  const [csvFile] = document.getElementById("csv-file").files;
+  const csvSmilesColumn = document.getElementById("csv-smiles-column").value;
+  const csvNamesColumn = document.getElementById("csv-names-column").value;
+  const csvDelimiter = document.getElementById("csv-delimiter").value || ",";
+
+  if (!csvFile) {
+    console.error("CSV file should be selected");
+    document.getElementById("csv-file-error").innerHTML = "*Select a CSV file";
+    return 1;
+  }
+
+  if (!csvSmilesColumn) {
+    console.error("No name for smiles column in CSV");
+    document.getElementById("csv-smiles-column-error").innerHTML =
+      "*Required smiles column name";
+    return 1;
+  }
+
+  const reader = new FileReader();
+  reader.addEventListener(
+    "load",
+    () => {
+      const csvContent = parseCSV(reader.result, csvDelimiter);
+      const smiles = getCSVColumn(csvContent, csvSmilesColumn);
+      const imagesContainer = document.getElementById("csv-rendered-images");
+      imagesContainer.innerHTML = "";
+
+      if (csvNamesColumn) {
+        const names = getCSVColumn(csvContent, csvNamesColumn);
+
+        for (const [molecule, name] of zip(smiles, names)) {
+          const node = document.createElement("div");
+          node.className = "smiles-image";
+
+          const image = document.createElement("img");
+          image.setAttribute(
+            "src",
+            `/render/base64/${encodeURIComponent(window.btoa(molecule))}`,
+          );
+          image.setAttribute("alt", smiles);
+
+          const desc = document.createElement("p");
+          desc.innerHTML = name;
+
+          node.appendChild(image);
+          node.appendChild(desc);
+          imagesContainer.appendChild(node);
+        }
+      } else {
+        for (const molecule of smiles) {
+          const node = document.createElement("div");
+          node.className = "smiles-image";
+
+          const image = document.createElement("img");
+          image.setAttribute(
+            "src",
+            `/render/base64/${encodeURIComponent(window.btoa(molecule))}`,
+          );
+          image.setAttribute("alt", smiles);
+
+          const desc = document.createElement("p");
+          desc.innerHTML = molecule;
+
+          node.appendChild(image);
+          node.appendChild(desc);
+          imagesContainer.appendChild(node);
+        }
+      }
+    },
+    false,
+  );
+  reader.readAsText(csvFile);
 }
 
 function resetErrosElements(ids) {
@@ -68,7 +162,7 @@ function resetErrosElements(ids) {
 function downloadFromCSV() {
   resetErrosElements(["csv-file-error", "csv-smiles-column-error"]);
 
-  const csvFile = document.getElementById("csv-file").files[0];
+  const [csvFile] = document.getElementById("csv-file").files;
   const csvSmilesColumn = document.getElementById("csv-smiles-column").value;
   const csvNamesColumn = document.getElementById("csv-names-column").value;
   const csvFormat = document.getElementById("csv-format").value;
