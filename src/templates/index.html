@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="static/favicon.png">
     <title>Smiles Render</title>
     <link rel="stylesheet" href="static/reset.css" />
     <link rel="stylesheet" href="static/styles.css" />
@@ -14,7 +15,7 @@
   <body>
 
     <header class="page-header">
-      <a href="/"><div class="smilesrender"><h1>Smiles Render</h1></div></a>
+      <a href="/"><div class="smilesrender"><img class="page-logo" src="static/logo.png"></div></a>
       <a href="https://github.com/Gabriel-Grechuk/smiles-render-web" target="_blank">
         <div class="github-link">
           <i class="bi bi-github"></i> Checkout the Github page
@@ -25,7 +26,9 @@
     <div class="page-content">
 
       <div class="smiles-input">
-        <h2>Direct input</h2>
+        <div class="card-head">
+          <h2>Direct input</h2>
+        </div>
         <div class="input-container">
           <p>
             <label for="smiles-input-string">Enter your smiles:</label>
@@ -42,7 +45,9 @@ C0CCCCC0C0CCCCC0</textarea>
       </div>
 
       <div class="csv-input">
-        <h2>Convert from CSV</h2>
+        <div class="card-head">
+          <h2>Convert from CSV</h2>
+        </div>
         <div class="csv-input-container">
           <div class="csv-input-card">
             <div class="input-error">
@@ -85,9 +90,11 @@ C0CCCCC0C0CCCCC0</textarea>
             <input type="text" id="csv-delimiter" name="fname" value=",">
           </div>
 
+          <div class="csv-input-card">
+            <button onclick="renderFromCSV()">Render</button>
+            <button onclick="downloadFromCSV()">Download</button>
+          </div>
         </div>
-        <button onclick="renderFromCSV()">Render</button>
-        <button onclick="downloadFromCSV()">Download</button>
 
         <div id="csv-rendered-images" class="rendered-images">
         </div>
