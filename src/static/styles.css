@@ -1,5 +1,11 @@
+/** 
+ * Theme:
+ * Yellow: #FFD230
+ * Black: #000000
+ */
+
 body {
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Verdana", "Arial", sans-serif;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -14,21 +20,24 @@ a {
 .page-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
   align-items: center;
-  background-color: #333333;
-  color: #fff;
+  background-color: #ffd230;
+  color: #000;
   width: 100%;
+}
+
+.page-logo {
+  width: 100px;
+  padding: 10px 10px 10px 25px;
 }
 
 .smilesrender {
   font-weight: bold;
   font-size: 26px;
-  margin: 25px;
 }
 
 .github-link {
-  margin: 25px;
+  margin-right: 25px;
 }
 
 .page-footer {
@@ -37,7 +46,7 @@ a {
   padding: 10px;
   display: flex;
   justify-content: center;
-  background-color: #333;
+  background-color: #000;
   color: #fff;
   align-items: center;
 }
@@ -72,7 +81,6 @@ a {
 
 h2 {
   font-size: 26px;
-  margin-bottom: 20px;
   font-weight: bold;
 }
 
@@ -87,9 +95,20 @@ h2 {
 }
 
 .smiles-input {
-  box-shadow: 2px 4px 10px #333333;
-  padding: 20px;
+  box-shadow: 2px 4px 10px #333;
   margin-bottom: 40px;
+  border-radius: 10px;
+}
+
+.card-head {
+  padding: 20px;
+  background-color: #ffd230;
+  color: #000;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.input-container {
+  padding: 20px;
 }
 
 .input-container p {
@@ -108,13 +127,14 @@ h2 {
 }
 
 .csv-input {
-  box-shadow: 2px 4px 10px #333333;
-  padding: 20px;
+  box-shadow: 2px 4px 10px #333;
   margin-bottom: 40px;
+  border-radius: 10px;
 }
 
 .csv-input-container {
   display: block;
+  padding: 20px;
 }
 
 .rendered-images {
@@ -135,7 +155,6 @@ h2 {
   margin-bottom: 5px;
 }
 
-
 .smiles-image {
   margin: 10px;
   padding: 5px;
@@ -149,13 +168,17 @@ h2 {
 
 .smiles-image p {
   text-align: center;
-  margin: 10px;
+  margin-top: 15px;
+  width: 100%;
   max-width: 100%;
+  font-weight: bold;
+  overflow-wrap: break-word;
 }
 
 .smiles-image img {
-  box-shadow: 1px 1px 10px #333333;
+  box-shadow: 2px 4px 10px #333;
   max-width: 100%;
+  border-radius: 10px;
 }
 
 .input-error p {
