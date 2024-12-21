@@ -1,0 +1,12 @@
+#root {
+  font-family: 'Verdana', 'Arial', sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
