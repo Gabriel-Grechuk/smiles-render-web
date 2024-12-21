@@ -3,7 +3,13 @@
   "module": "/src/frontend/index.tsx",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@eslint/js": "^9.17.0",
+    "@types/bun": "latest",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "globals": "^15.14.0",
+    "prettier": "3.4.2",
+    "typescript-eslint": "^8.18.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -16,6 +22,7 @@
     "react-dom": "^19.0.0"
   },
   "scripts": {
-    "build": "bun run frontend-build.ts"
+    "build": "bun run frontend-build.ts",
+    "lint": "bun run eslint src/frontend"
   }
 }
