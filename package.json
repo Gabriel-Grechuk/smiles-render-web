@@ -23,6 +23,7 @@
   },
   "scripts": {
     "build": "bun run frontend-build.ts",
+    "start:dev": "bun run build && python3 src/main.py",
     "lint": "bun run eslint src/frontend"
   }
 }
