@@ -17,13 +17,13 @@ const headerStyle = {
   fontWeight: 'bold',
 };
 
-function Section(props: { title: string; content: React.JSX.Element }) {
+function Section(props: { title: string; children: React.JSX.Element }) {
   return (
     <div style={sectionStyle}>
       <div style={headerStyle}>
         <h2>{props.title}</h2>
       </div>
-      <div style={{ padding: '20px' }}>{props.content}</div>
+      <div style={{ padding: '20px' }}>{props.children}</div>
     </div>
   );
 }

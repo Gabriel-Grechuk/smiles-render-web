@@ -16,7 +16,9 @@ function App() {
           minHeight: '100vh',
         }}
       >
-        <Section title="Direct input" content={<p>Hoy there</p>} />
+        <Section title="Direct input">
+          <p>Hey there</p>
+        </Section>
       </div>
       <Footer />
     </>
