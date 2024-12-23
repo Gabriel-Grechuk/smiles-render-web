@@ -7,7 +7,6 @@ const output = await Bun.build({
   target: 'browser',
   format: 'esm',
   env: 'inline',
-  drop: ['console'],
 } as BuildConfig);
 
 if (!output.success) {
