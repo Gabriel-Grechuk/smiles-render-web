@@ -3,7 +3,7 @@ import React from 'react';
 const pageFooterStyle = {
   width: '100%',
   marginTop: '10px',
-  padding: '10px',
+  padding: '10px 0px 10px 0px',
   display: 'flex',
   justifyContent: 'center',
   backgroundColor: '#000',
@@ -19,12 +19,11 @@ function Footer() {
           margin: '0px 5px 0px 5px',
         }}
       >
-        {' '}
-        Made with
+        Made with{' '}
         <i
           className="bi bi-heart-fill heart"
           style={{ color: 'red', fontSize: '12px' }}
-        ></i>
+        ></i>{' '}
         by Gabe
       </span>
       <div style={{ margin: 'margin: 0px 5px 0 5px' }}>
