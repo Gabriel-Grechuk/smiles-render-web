@@ -1,6 +1,6 @@
 import React from 'react';
 
-const pageFooterStyle = {
+const pageFooterStyle: React.CSSProperties = {
   width: '100%',
   marginTop: '10px',
   padding: '10px 0px 10px 0px',

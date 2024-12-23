@@ -1,7 +1,7 @@
 import React from 'react';
 import { defaultColors } from '../styles/themes';
 
-const headerStyle = {
+const headerStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -9,17 +9,17 @@ const headerStyle = {
   ...defaultColors,
 };
 
-const smileRederStyle = {
+const smileRederStyle: React.CSSProperties = {
   fontWeight: 'bold',
   fontSize: '26px',
 };
 
-const pageLogoStyle = {
+const pageLogoStyle: React.CSSProperties = {
   width: '100px',
   padding: '10px 10px 10px 25px',
 };
 
-const gitHubLinkStyle = {
+const gitHubLinkStyle: React.CSSProperties = {
   marginRight: '25px',
 };
 
@@ -33,7 +33,8 @@ function Header() {
       </a>
       <a
         href="https://github.com/Gabriel-Grechuk/smiles-render-web"
-        target="_blank" rel="noreferrer"
+        target="_blank"
+        rel="noreferrer"
       >
         <div style={gitHubLinkStyle}>
           <i className="bi bi-github" style={{ marginRight: '5px' }}></i>
