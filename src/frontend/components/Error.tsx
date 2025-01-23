@@ -9,7 +9,7 @@ function Error({ message }: { message: string }) {
           color: 'red',
         }}
       >
-        * {message}
+        *{message}
       </p>
     </div>
   );
