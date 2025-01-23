@@ -38,12 +38,10 @@ const labelStyle: React.CSSProperties = {
   overflowWrap: 'break-word',
 };
 
-function SmilesCard(props: { smiles: string }) {
+function SmilesCard(props: { smiles: string; name?: string }) {
   const [isloading, setIsLoading] = useState(true);
   const [smileImage, setSmileImage] = useState(new Blob());
   const [error, setError] = useState(false);
-
-  console.log('Hey there, beind reloaded');
 
   useEffect(() => {
     const url = `/render/base64/${encodeURIComponent(window.btoa(props.smiles))}`;
@@ -83,7 +81,7 @@ function SmilesCard(props: { smiles: string }) {
           />
         )}
 
-        <p style={labelStyle}>{props.smiles}</p>
+        <p style={labelStyle}>{props.name || props.smiles}</p>
       </div>
     );
 }

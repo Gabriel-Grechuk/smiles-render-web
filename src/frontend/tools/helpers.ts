@@ -8,3 +8,7 @@ export function downloadBlob(args: { blob: Blob; name: string }) {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
+
+export function zip<T, U>(arr1: T[], arr2: U[]): [T, U][] {
+  return arr1.map((element, i) => [element, arr2[i]]);
+}

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Section from '../components/Section';
 import Error from '../components/Error';
 import SmilesCard from '../components/SmilesCard';
+import * as csvTools from '../tools/csv';
+import { zip } from '../tools/helpers';
 
 const inputStyles: React.CSSProperties = {
   padding: '5px',
@@ -28,7 +30,7 @@ function ConvertFromCsv() {
   const [smilesColumnError, setSmilesColumnError] = useState(false);
   const [smilesColumnErrorMessage, setSmilesColumnErrorMessage] = useState('');
 
-  const [smilesToRender, setSmilesToRender] = useState([] as string[]);
+  const [smilesToRender, setSmilesToRender] = useState([] as string[][]);
 
   const [defaultImageFormat, setDefaultImageFormat] = useState('png');
   const [defaultDelimiter, setDefaultDelimiter] = useState(',');
@@ -37,6 +39,9 @@ function ConvertFromCsv() {
     undefined as 'render' | 'download' | undefined
   );
 
+  const renderSmiles = (smiles: Array<[string, string]>) => {};
+  const downloadSmiles = (smiles: Array<[string, string]>) => {};
+
   const handleSubmit = (formData: FormData) => {
     setFileInputError(false);
     setSmilesColumnError(false);
@@ -44,15 +49,28 @@ function ConvertFromCsv() {
     const csvFile = formData.get('csv-file') as File;
     const csvSmilesColumn = formData.get('csv-smiles-column');
     const csvNamesColumn = formData.get('csv-names-column');
-    const csvDelimiter = formData.get('csv-delimiter') || ',';
+    const csvDelimiter = formData.get('csv-delimiter') || '';
 
     if (!csvSmilesColumn) {
       console.error('No name for smiles column in CSV');
       setSmilesColumnError(true);
       setSmilesColumnErrorMessage('Required smiles column name');
+      return;
     }
 
-    csvFile.text().then((text) => console.log('File content:', text));
+    csvFile.text().then((text: string) => {
+      console.log('File content:', text);
+      const delimiter = csvTools.getDelimiter(text);
+      const csvData = csvTools.parseCSV(text, delimiter);
+      const smiles = csvTools.getCSVColumn(csvData, csvSmilesColumn.toString());
+      const names = csvNamesColumn
+        ? csvTools.getCSVColumn(csvData, csvNamesColumn.toString())
+        : ([] as string[]).fill('', 0, smiles.length);
+
+      const smilesPayload = zip(smiles, names);
+      if (formAction == 'render') renderSmiles(smilesPayload);
+      else if (formAction == 'download') downloadSmiles(smilesPayload);
+    });
   };
 
   return (
@@ -131,7 +149,11 @@ function ConvertFromCsv() {
         </div>
         <div style={smilesImageStyle}>
           {[...new Set(smilesToRender)].map((smiles) => (
-            <SmilesCard key={smiles} smiles={smiles} />
+            <SmilesCard
+              key={smiles[0]}
+              smiles={smiles[0]}
+              name={smiles[1] || undefined}
+            />
           ))}
         </div>
       </form>
