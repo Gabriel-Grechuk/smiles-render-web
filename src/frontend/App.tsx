@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import DirectInput from './forms/DirectInput';
+import ConvertFromCsv from './forms/ConvertFromCsv';
 
 const contentStyle: React.CSSProperties = {
   display: 'flex',
@@ -17,6 +18,7 @@ function App() {
       <Header />
       <section style={contentStyle}>
         <DirectInput />
+        <ConvertFromCsv />
       </section>
       <Footer />
     </>
