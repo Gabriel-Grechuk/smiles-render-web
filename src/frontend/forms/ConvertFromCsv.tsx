@@ -39,7 +39,9 @@ function ConvertFromCsv() {
     undefined as 'render' | 'download' | undefined
   );
 
-  const renderSmiles = (smiles: Array<[string, string]>) => {};
+  const renderSmiles = (smiles: Array<[string, string]>) => {
+    setSmilesToRender(smiles);
+  };
   const downloadSmiles = (smiles: Array<[string, string]>) => {};
 
   const handleSubmit = (formData: FormData) => {
