@@ -3,7 +3,7 @@ import Section from '../components/Section';
 import Error from '../components/Error';
 import SmilesCard from '../components/SmilesCard';
 import * as csvTools from '../tools/csv';
-import { zip } from '../tools/helpers';
+import { downloadBlob, zip } from '../tools/helpers';
 
 const inputStyles: React.CSSProperties = {
   padding: '5px',
@@ -53,11 +53,37 @@ function ConvertFromCsv() {
   });
 
   const renderSmiles = (smiles: Array<[string, string]>) => {
-    console.log('Rendering:', smiles);
     setSmilesToRender(smiles);
   };
 
-  const downloadSmiles = (smiles: Array<[string, string]>) => {};
+  const downloadSmiles = (smiles: Array<[string, string]>) => {
+    fetch('/render', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        smiles: smiles.map((data) => {
+          const [smiles, name] = data;
+          return {
+            smiles,
+            name,
+            format: 'png',
+          };
+        }),
+      }),
+    })
+      .then((response) => response.blob())
+      .then((blob) => downloadBlob({ name: 'smiles.zip', blob }))
+      .finally(() => {
+        setFileInputError(null);
+        setSmilesError(null);
+      })
+      .catch((error) => {
+        console.error('Could not download smiles zip:', error);
+        setFileInputError({
+          message: `Could not download smiles zip: ${error}`,
+        });
+      });
+  };
 
   const handleSubmit = () => {
     setFileInputError(null);
@@ -80,20 +106,15 @@ function ConvertFromCsv() {
     }
 
     formFields.file?.text().then((text: string) => {
-      console.log('File content:', text);
       const delimiter = csvTools.getDelimiter(text);
-      console.log('Delimiter:', delimiter);
       const csvData = csvTools.parseCSV(text, delimiter);
-      console.log('csvData:', csvData);
       const smiles = csvTools.getCSVColumn(
         csvData,
         formFields.smilesColumn.toString()
       );
-      console.log('Smiles:', smiles);
       const names = formFields.namesColumn
         ? csvTools.getCSVColumn(csvData, formFields.namesColumn.toString())
         : ([] as string[]).fill('', 0, smiles.length);
-      console.log('Names:', names);
 
       const smilesPayload = zip(smiles, names);
       if (formAction == 'render') renderSmiles(smilesPayload);
