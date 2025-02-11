@@ -106,37 +106,49 @@ function ConvertFromCsv() {
       <form action={handleSubmit}>
         <div style={inputStyles}>
           {fileInputError && <Error message={fileInputError.message} />}
-          <p style={inputParagraphStyles}>
-            <label
-              htmlFor="csv-file"
-              style={{
-                border: '1px solid #ccc',
-                display: 'inline-block',
-                padding: '6px 12px',
-                cursor: 'pointer',
-              }}
-            >
-              CSV file
-            </label>
-          </p>
-          <input
-            type="file"
-            id="csv-file"
-            name="csv-file"
-            accept=".csv"
-            onChange={(e) => {
-              const file = e.target.files ? e.target.files[0] : null;
-              setFormFields({
-                ...formFields,
-                file,
-                fileName: file ? file.name : '',
-              });
-            }}
+          <div
             style={{
-              display: 'none',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
             }}
-          />
-          {formFields.fileName && <p>Selected: "{formFields.fileName}"</p>}
+          >
+            <p style={inputParagraphStyles}>
+              <label
+                htmlFor="csv-file"
+                style={{
+                  border: '1px solid #ccc',
+                  display: 'inline-block',
+                  padding: '6px 12px',
+                  cursor: 'pointer',
+                }}
+              >
+                CSV file
+              </label>
+            </p>
+            <input
+              type="file"
+              id="csv-file"
+              name="csv-file"
+              accept=".csv"
+              onChange={(e) => {
+                const file = e.target.files ? e.target.files[0] : null;
+                setFormFields({
+                  ...formFields,
+                  file,
+                  fileName: file ? file.name : '',
+                });
+              }}
+              style={{
+                display: 'none',
+              }}
+            />
+            {formFields.fileName && (
+              <p style={{ marginLeft: '5px' }}>
+                Selected: "{formFields.fileName}"
+              </p>
+            )}
+          </div>
         </div>
 
         <div style={inputStyles}>
