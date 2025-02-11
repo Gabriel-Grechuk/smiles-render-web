@@ -21,11 +21,6 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/react")
-def index_react():
-    return render_template("index.react.html")
-
-
 @app.route("/render", methods=["POST"])
 def render_by_json():
     try:

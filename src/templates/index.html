@@ -1,119 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="static/favicon.png">
+
     <title>Smiles Render</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="SmilesRender" />
+    <meta
+      name="description"
+      content="Convert your molecule smiles to images online!"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://smiles-render.onrender.com" />
+    <meta property="og:title" content="SmilesRender" />
+    <meta
+      property="og:description"
+      content="Convert your molecule smiles to images online!"
+    />
+    <meta
+      property="og:image"
+      content="https://smiles-render.onrender.com/static/banner.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://smiles-render.onrender.com"
+    />
+    <meta property="twitter:title" content="SmilesRender" />
+    <meta
+      property="twitter:description"
+      content="Convert your molecule smiles to images online!"
+    />
+    <meta
+      property="twitter:image"
+      content="https://smiles-render.onrender.com/static/banner.png"
+    />
+
+    <link rel="icon" type="image/x-icon" href="static/favicon.png">
     <link rel="stylesheet" href="static/reset.css" />
-    <link rel="stylesheet" href="static/styles.css" />
+    <link rel="stylesheet" href="static/global.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
       rel="stylesheet"
     />
   </head>
   <body>
-
-    <header class="page-header">
-      <a href="/"><div class="smilesrender"><img class="page-logo" src="static/logo.png"></div></a>
-      <a href="https://github.com/Gabriel-Grechuk/smiles-render-web" target="_blank">
-        <div class="github-link">
-          <i class="bi bi-github"></i> Checkout the Github page
-        </div>
-      </a>
-    </header>
-
-    <div class="page-content">
-
-      <div class="smiles-input">
-        <div class="card-head">
-          <h2>Direct input</h2>
-        </div>
-        <div class="input-container">
-          <p>
-            <label for="smiles-input-string">Enter your smiles:</label>
-          </p>
-          <textarea id="smiles-input-string" rows="6" cols="70">CCCCCCCC
-C0CCCCC0C0CCCCC0</textarea>
-          </br>
-          <button onclick="renderImages()">Render</button>
-          <button onclick="downloadImages()">Download</button>
-        </div>
-
-        <div id="rendered-images" class="rendered-images">
-        </div>
-      </div>
-
-      <div class="csv-input">
-        <div class="card-head">
-          <h2>Convert from CSV</h2>
-        </div>
-        <div class="csv-input-container">
-          <div class="csv-input-card">
-            <div class="input-error">
-              <p id=csv-file-error></p>
-            </div>
-            <p>
-              <label for="csv-file">CSV file:</label>
-            </p>
-            <input type="file" id="csv-file" name="csv-file" accept=".csv">
-          </div>
-
-          <div class="csv-input-card">
-            <div class="input-error">
-              <p id=csv-smiles-column-error></p>
-            </div>
-            <p>
-              <label for="csv-smiles-column">Enter name of smiles column:</label>
-            </p>
-            <input type="text" id="csv-smiles-column" name="csv-smiles-column">
-          </div>
-
-          <div class="csv-input-card">
-            <p>
-              <label for="csv-names-column">Enter the name of molecules column (optional):</label>
-            </p>
-            <input type="text" id="csv-names-column" name="csv-name-column">
-          </div>
-
-          <div class="csv-input-card">
-            <p>
-              <label for="csv-format">Enter the generated files format (optional):</label>
-            </p>
-            <input type="text" id="csv-format" name="csv-format" value="png">
-          </div>
-
-          <div class="csv-input-card">
-            <p>
-              <label for="csv-delimiter">Enter the CSV delimiter (optional):</label>
-            </p>
-            <input type="text" id="csv-delimiter" name="fname" value=",">
-          </div>
-
-          <div class="csv-input-card">
-            <button onclick="renderFromCSV()">Render</button>
-            <button onclick="downloadFromCSV()">Download</button>
-          </div>
-        </div>
-
-        <div id="csv-rendered-images" class="rendered-images">
-        </div>
-      </div>
-
-    </div>
-
-    <footer class="page-footer">
-      <span class="footer-text"
-        >Made with <i class="bi bi-heart-fill heart" style="color: red"></i> by
-        Gabe
-      </span>
-      <div class="footer-icons">
-        <a href="https://github.com/Gabriel-Grechuk" target="_blank"
-          ><i class="bi bi-github"></i
-        ></a>
-      </div>
-    </footer>
-
-    <script src="static/main.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/static/build/index.js"></script>
   </body>
 </html>
