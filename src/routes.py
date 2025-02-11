@@ -39,6 +39,7 @@ def render_by_json():
             return send_file(image, f"image/{format}"), 200
 
         if type(smiles) == list:
+            ## If it is only a list of strings
             smiles_to_convert: list[tuple[str, str, str]] = []
             registered_smiles: list[str] = []
 
@@ -55,7 +56,11 @@ def render_by_json():
                         continue
 
                     smiles_to_convert.append(
-                        (item["smiles"], "", item["format"] or format)
+                        (
+                            item["smiles"],
+                            item.get("name", ""),
+                            item.get("format", format),
+                        )
                     )
 
                 else:
@@ -82,7 +87,6 @@ def render_by_json():
 @app.route("/render/<string:smiles>", methods=["GET"])
 def render_smiles(smiles: str):
     try:
-        print(smiles)
         format = request.args.get("format") or "png"
         image = convert_smiles(smiles, format.lower())
 
