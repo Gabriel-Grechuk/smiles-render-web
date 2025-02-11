@@ -1,0 +1,29 @@
+{
+  "name": "smiles-render-web",
+  "module": "/src/frontend/index.tsx",
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/bun": "latest",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "globals": "^15.14.0",
+    "prettier": "3.4.2",
+    "typescript-eslint": "^8.18.1",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "next": "^15.1.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "scripts": {
+    "build": "bun run frontend-build.ts",
+    "start:dev": "bun run build && python3 src/main.py",
+    "lint": "bun run eslint src/frontend"
+  }
+}
