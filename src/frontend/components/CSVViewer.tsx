@@ -3,6 +3,7 @@ import React from 'react';
 const cellStyle: React.CSSProperties = {
   border: '1px solid #000',
   padding: '10px',
+  fontSize: '14px',
 };
 
 const headerStyle: React.CSSProperties = {
