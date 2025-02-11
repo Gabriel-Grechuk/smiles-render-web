@@ -1,6 +1,9 @@
 export function getDelimiter(text: string): string {
   text = text.trim();
-  const symbols = text.replace(/\w/, '').replace('\n', '').split('');
+  const symbols = text
+    .replace(/[A-Za-z0-9=\-#\(\)\[\]\/:@]/g, '')
+    .replace('\n', '')
+    .split('');
 
   const symbolsCount: Record<string, number> = {};
   for (const symbol of symbols) {

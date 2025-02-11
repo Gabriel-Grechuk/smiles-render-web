@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { act, useState } from 'react';
 import Section from '../components/Section';
 import Error from '../components/Error';
 import SmilesCard from '../components/SmilesCard';
@@ -23,51 +23,77 @@ const smilesImageStyle: React.CSSProperties = {
   width: '100%',
 };
 
+interface ConvertFields {
+  file: File | null;
+  fileName: string;
+  smilesColumn: string;
+  namesColumn: string;
+  imageFormat: string;
+  delimiter: string;
+}
+
+interface InputError {
+  message: string;
+}
+
 function ConvertFromCsv() {
-  const [fileInputError, setFileInputError] = useState(false);
-  const [fileInputErrorMessage, setFileInputErrorMessage] = useState('');
-
-  const [smilesColumnError, setSmilesColumnError] = useState(false);
-  const [smilesColumnErrorMessage, setSmilesColumnErrorMessage] = useState('');
-
-  const [smilesToRender, setSmilesToRender] = useState([] as string[][]);
-
-  const [defaultImageFormat, setDefaultImageFormat] = useState('png');
-  const [defaultDelimiter, setDefaultDelimiter] = useState(',');
-
+  const [fileInputError, setFileInputError] = useState<InputError | null>(null);
+  const [smilesError, setSmilesError] = useState<InputError | null>(null);
+  const [smilesToRender, setSmilesToRender] = useState<string[][]>([]);
   const [formAction, setFormAction] = useState(
     undefined as 'render' | 'download' | undefined
   );
+  const [formFields, setFormFields] = useState<ConvertFields>({
+    file: null,
+    fileName: '',
+    smilesColumn: '',
+    namesColumn: '',
+    delimiter: ',',
+    imageFormat: 'png',
+  });
 
   const renderSmiles = (smiles: Array<[string, string]>) => {
+    console.log('Rendering:', smiles);
     setSmilesToRender(smiles);
   };
+
   const downloadSmiles = (smiles: Array<[string, string]>) => {};
 
-  const handleSubmit = (formData: FormData) => {
-    setFileInputError(false);
-    setSmilesColumnError(false);
+  const handleSubmit = () => {
+    setFileInputError(null);
+    setSmilesError(null);
 
-    const csvFile = formData.get('csv-file') as File;
-    const csvSmilesColumn = formData.get('csv-smiles-column');
-    const csvNamesColumn = formData.get('csv-names-column');
-    const csvDelimiter = formData.get('csv-delimiter') || '';
-
-    if (!csvSmilesColumn) {
-      console.error('No name for smiles column in CSV');
-      setSmilesColumnError(true);
-      setSmilesColumnErrorMessage('Required smiles column name');
+    if (!formFields.file) {
+      console.error('No CSV file selected');
+      setFileInputError({
+        message: 'Select a CSV file.',
+      });
       return;
     }
 
-    csvFile.text().then((text: string) => {
+    if (!formFields.smilesColumn) {
+      console.error('No name for smiles column in CSV');
+      setSmilesError({
+        message: 'Required smiles column name',
+      });
+      return;
+    }
+
+    formFields.file?.text().then((text: string) => {
       console.log('File content:', text);
       const delimiter = csvTools.getDelimiter(text);
+      console.log('Delimiter:', delimiter);
       const csvData = csvTools.parseCSV(text, delimiter);
-      const smiles = csvTools.getCSVColumn(csvData, csvSmilesColumn.toString());
-      const names = csvNamesColumn
-        ? csvTools.getCSVColumn(csvData, csvNamesColumn.toString())
+      console.log('csvData:', csvData);
+      const smiles = csvTools.getCSVColumn(
+        csvData,
+        formFields.smilesColumn.toString()
+      );
+      console.log('Smiles:', smiles);
+      const names = formFields.namesColumn
+        ? csvTools.getCSVColumn(csvData, formFields.namesColumn.toString())
         : ([] as string[]).fill('', 0, smiles.length);
+      console.log('Names:', names);
 
       const smilesPayload = zip(smiles, names);
       if (formAction == 'render') renderSmiles(smilesPayload);
@@ -79,21 +105,58 @@ function ConvertFromCsv() {
     <Section title="Convert from CSV">
       <form action={handleSubmit}>
         <div style={inputStyles}>
-          {fileInputError && <Error message={fileInputErrorMessage} />}{' '}
+          {fileInputError && <Error message={fileInputError.message} />}
           <p style={inputParagraphStyles}>
-            <label htmlFor="csv-file">CSV file:</label>
+            <label
+              htmlFor="csv-file"
+              style={{
+                border: '1px solid #ccc',
+                display: 'inline-block',
+                padding: '6px 12px',
+                cursor: 'pointer',
+              }}
+            >
+              CSV file
+            </label>
           </p>
-          <input type="file" name="csv-file" accept=".csv" />
+          <input
+            type="file"
+            id="csv-file"
+            name="csv-file"
+            accept=".csv"
+            onChange={(e) => {
+              const file = e.target.files ? e.target.files[0] : null;
+              setFormFields({
+                ...formFields,
+                file,
+                fileName: file ? file.name : '',
+              });
+            }}
+            style={{
+              display: 'none',
+            }}
+          />
+          {formFields.fileName && <p>Selected: "{formFields.fileName}"</p>}
         </div>
 
         <div style={inputStyles}>
-          {smilesColumnError && <Error message={smilesColumnErrorMessage} />}{' '}
+          {smilesError && <Error message={smilesError.message} />}
           <p style={inputParagraphStyles}>
             <label htmlFor="csv-smiles-column">
               Enter name of smiles column:
             </label>
           </p>
-          <input type="text" name="csv-smiles-column" />
+          <input
+            type="text"
+            name="csv-smiles-column"
+            value={formFields.smilesColumn}
+            onChange={(e) => {
+              setFormFields({
+                ...formFields,
+                smilesColumn: e.target.value,
+              });
+            }}
+          />
         </div>
 
         <div style={inputStyles}>
@@ -102,7 +165,17 @@ function ConvertFromCsv() {
               Enter the name of molecules column(optional):
             </label>
           </p>
-          <input type="text" name="csv-name-column" />
+          <input
+            type="text"
+            name="csv-name-column"
+            value={formFields.namesColumn}
+            onChange={(e) => {
+              setFormFields({
+                ...formFields,
+                namesColumn: e.target.value,
+              });
+            }}
+          />
         </div>
 
         <div style={inputStyles}>
@@ -114,8 +187,13 @@ function ConvertFromCsv() {
           <input
             type="text"
             name="csv-format"
-            onChange={(e) => setDefaultImageFormat(e.target.value)}
-            value={defaultImageFormat}
+            value={formFields.imageFormat}
+            onChange={(e) => {
+              setFormFields({
+                ...formFields,
+                imageFormat: e.target.value,
+              });
+            }}
           />
         </div>
 
@@ -128,8 +206,13 @@ function ConvertFromCsv() {
           <input
             type="text"
             name="fname"
-            onChange={(e) => setDefaultDelimiter(e.target.value)}
-            value={defaultDelimiter}
+            value={formFields.delimiter}
+            onChange={(e) => {
+              setFormFields({
+                ...formFields,
+                delimiter: e.target.value,
+              });
+            }}
           />
         </div>
 
