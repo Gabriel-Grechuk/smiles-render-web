@@ -125,164 +125,201 @@ function ConvertFromCsv() {
 
   return (
     <Section title="Convert from CSV">
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      >
-        <form action={handleSubmit}>
-          <div style={inputStyles}>
-            {fileInputError && <Error message={fileInputError.message} />}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <p style={inputParagraphStyles}>
-                <label
-                  htmlFor="csv-file"
-                  style={{
-                    border: '1px solid #ccc',
-                    display: 'inline-block',
-                    padding: '6px 12px',
-                    cursor: 'pointer',
+      <div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
+          <form action={handleSubmit}>
+            <div style={inputStyles}>
+              {fileInputError && <Error message={fileInputError.message} />}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <p style={inputParagraphStyles}>
+                  <label
+                    htmlFor="csv-file"
+                    style={{
+                      border: '1px solid #ccc',
+                      display: 'inline-block',
+                      padding: '6px 12px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Select a CSV file
+                  </label>
+                </p>
+                <input
+                  type="file"
+                  id="csv-file"
+                  name="csv-file"
+                  accept=".csv"
+                  onChange={(e) => {
+                    const file = e.target.files ? e.target.files[0] : null;
+                    setFormFields({
+                      ...formFields,
+                      file,
+                      fileName: file ? file.name : '',
+                    });
                   }}
-                >
-                  Select a CSV file
+                  style={{
+                    display: 'none',
+                  }}
+                />
+                {formFields.fileName && (
+                  <p style={{ marginLeft: '5px' }}>
+                    Selected: "{formFields.fileName}"
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div style={inputStyles}>
+              {smilesError && <Error message={smilesError.message} />}
+              <p style={inputParagraphStyles}>
+                <label htmlFor="csv-smiles-column">
+                  Enter name of smiles column:
                 </label>
               </p>
               <input
-                type="file"
-                id="csv-file"
-                name="csv-file"
-                accept=".csv"
+                type="text"
+                name="csv-smiles-column"
+                value={formFields.smilesColumn}
                 onChange={(e) => {
-                  const file = e.target.files ? e.target.files[0] : null;
                   setFormFields({
                     ...formFields,
-                    file,
-                    fileName: file ? file.name : '',
+                    smilesColumn: e.target.value,
                   });
                 }}
-                style={{
-                  display: 'none',
+              />
+            </div>
+
+            <div style={inputStyles}>
+              <p style={inputParagraphStyles}>
+                <label htmlFor="csv-names-column">
+                  Enter the name of molecules column(optional):
+                </label>
+              </p>
+              <input
+                type="text"
+                name="csv-name-column"
+                value={formFields.namesColumn}
+                onChange={(e) => {
+                  setFormFields({
+                    ...formFields,
+                    namesColumn: e.target.value,
+                  });
                 }}
               />
-              {formFields.fileName && (
-                <p style={{ marginLeft: '5px' }}>
-                  Selected: "{formFields.fileName}"
-                </p>
-              )}
             </div>
-          </div>
 
-          <div style={inputStyles}>
-            {smilesError && <Error message={smilesError.message} />}
-            <p style={inputParagraphStyles}>
-              <label htmlFor="csv-smiles-column">
-                Enter name of smiles column:
-              </label>
-            </p>
-            <input
-              type="text"
-              name="csv-smiles-column"
-              value={formFields.smilesColumn}
-              onChange={(e) => {
-                setFormFields({
-                  ...formFields,
-                  smilesColumn: e.target.value,
-                });
-              }}
-            />
-          </div>
-
-          <div style={inputStyles}>
-            <p style={inputParagraphStyles}>
-              <label htmlFor="csv-names-column">
-                Enter the name of molecules column(optional):
-              </label>
-            </p>
-            <input
-              type="text"
-              name="csv-name-column"
-              value={formFields.namesColumn}
-              onChange={(e) => {
-                setFormFields({
-                  ...formFields,
-                  namesColumn: e.target.value,
-                });
-              }}
-            />
-          </div>
-
-          <div style={inputStyles}>
-            <p style={inputParagraphStyles}>
-              <label htmlFor="csv-format">
-                Enter the generated files format(optional):
-              </label>
-            </p>
-            <input
-              type="text"
-              name="csv-format"
-              value={formFields.imageFormat}
-              onChange={(e) => {
-                setFormFields({
-                  ...formFields,
-                  imageFormat: e.target.value,
-                });
-              }}
-            />
-          </div>
-
-          <div style={{ ...inputStyles, marginBottom: '0px' }}>
-            <p style={inputParagraphStyles}>
-              <label htmlFor="csv-delimiter">
-                Enter the CSV delimiter(optional):
-              </label>
-            </p>
-            <input
-              type="text"
-              name="fname"
-              value={formFields.delimiter}
-              onChange={(e) => {
-                setFormFields({
-                  ...formFields,
-                  delimiter: e.target.value,
-                });
-              }}
-            />
-          </div>
-
-          <div style={inputStyles}>
-            <button
-              type="submit"
-              style={{ marginRight: '10px' }}
-              onClick={() => setFormAction('render')}
-            >
-              Render
-            </button>
-            <button
-              type="submit"
-              style={{ marginRight: '10px' }}
-              onClick={() => setFormAction('download')}
-            >
-              Download
-            </button>
-          </div>
-          <div style={smilesImageStyle}>
-            {[...new Set(smilesToRender)].map((smiles) => (
-              <SmilesCard
-                key={smiles[0]}
-                smiles={smiles[0]}
-                name={smiles[1] || undefined}
+            <div style={inputStyles}>
+              <p style={inputParagraphStyles}>
+                <label htmlFor="csv-format">
+                  Enter the generated files format(optional):
+                </label>
+              </p>
+              <input
+                type="text"
+                name="csv-format"
+                value={formFields.imageFormat}
+                onChange={(e) => {
+                  setFormFields({
+                    ...formFields,
+                    imageFormat: e.target.value,
+                  });
+                }}
               />
-            ))}
-          </div>
-        </form>
-        <CSVViewer data={[]} />
+            </div>
+
+            <div style={{ ...inputStyles, marginBottom: '0px' }}>
+              <p style={inputParagraphStyles}>
+                <label htmlFor="csv-delimiter">
+                  Enter the CSV delimiter(optional):
+                </label>
+              </p>
+              <input
+                type="text"
+                name="fname"
+                value={formFields.delimiter}
+                onChange={(e) => {
+                  setFormFields({
+                    ...formFields,
+                    delimiter: e.target.value,
+                  });
+                }}
+              />
+            </div>
+
+            <div style={inputStyles}>
+              <button
+                type="submit"
+                style={{ marginRight: '10px' }}
+                onClick={() => setFormAction('render')}
+              >
+                Render
+              </button>
+              <button
+                type="submit"
+                style={{ marginRight: '10px' }}
+                onClick={() => setFormAction('download')}
+              >
+                Download
+              </button>
+            </div>
+          </form>
+          <CSVViewer
+            data={[
+              ['Smiles', 'Name'],
+              [
+                'Cc1c(O)c(C)c(CC[C@](CCC[C@@H](CCC[C@@H](CCCC(C)C)C)C)(C)O2)c2c1C',
+                'Vitamin E',
+              ],
+              ['C([C@@H]([C@@H]1C(=C(C(=O)O1)O)O)O)O', 'Vitamin C'],
+              ['OC/C=C(C)/C=C/C=C(C)/C=C/C1=C(C)/CCCC1(C)C', 'Vitamin A'],
+              [
+                'Cc1c(O)c(C)c(CC[C@](CCC[C@@H](CCC[C@@H](CCCC(C)C)C)C)(C)O2)c2c1C',
+                'Vitamin E',
+              ],
+              ['C([C@@H]([C@@H]1C(=C(C(=O)O1)O)O)O)O', 'Vitamin C'],
+              ['OC/C=C(C)/C=C/C=C(C)/C=C/C1=C(C)/CCCC1(C)C', 'Vitamin A'],
+              [
+                'Cc1c(O)c(C)c(CC[C@](CCC[C@@H](CCC[C@@H](CCCC(C)C)C)C)(C)O2)c2c1C',
+                'Vitamin E',
+              ],
+              ['C([C@@H]([C@@H]1C(=C(C(=O)O1)O)O)O)O', 'Vitamin C'],
+              ['OC/C=C(C)/C=C/C=C(C)/C=C/C1=C(C)/CCCC1(C)C', 'Vitamin A'],
+              [
+                'Cc1c(O)c(C)c(CC[C@](CCC[C@@H](CCC[C@@H](CCCC(C)C)C)C)(C)O2)c2c1C',
+                'Vitamin E',
+              ],
+              ['C([C@@H]([C@@H]1C(=C(C(=O)O1)O)O)O)O', 'Vitamin C'],
+              ['OC/C=C(C)/C=C/C=C(C)/C=C/C1=C(C)/CCCC1(C)C', 'Vitamin A'],
+            ]}
+            //data={[]}
+            selectedColumns={[
+              {
+                name: 'Name',
+                color: '#cbf2da',
+              },
+            ]}
+          />
+        </div>
+        <div style={smilesImageStyle}>
+          {[...new Set(smilesToRender)].map((smiles) => (
+            <SmilesCard
+              key={smiles[0]}
+              smiles={smiles[0]}
+              name={smiles[1] || undefined}
+            />
+          ))}
+        </div>
       </div>
     </Section>
   );
