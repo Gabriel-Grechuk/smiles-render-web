@@ -1,7 +1,7 @@
 export function getDelimiter(text: string): string {
   text = text.trim();
   const symbols = text
-    .replace(/[A-Za-z0-9=\-#\(\)\[\]\/:@]/g, '')
+    .replace(/[A-Za-z0-9=\-#\(\)\[\]\/:@ \s]/g, '')
     .replace('\n', '')
     .split('');
 
@@ -26,7 +26,8 @@ export function getDelimiter(text: string): string {
 export function parseCSV(text: string, delimiter: string): string[][] {
   const lines = text.split('\n');
   const columns: string[][] = [];
-  for (const line of lines) columns.push(line.split(delimiter));
+  for (const line of lines) if (line) columns.push(line.split(delimiter));
+
   return columns;
 }
 
