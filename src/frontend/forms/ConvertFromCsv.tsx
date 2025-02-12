@@ -134,13 +134,7 @@ function ConvertFromCsv() {
   };
 
   const hadleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('Event');
     const file = e.target.files ? e.target.files[0] : null;
-    setFormFields({
-      ...formFields,
-      file,
-      fileName: file ? file.name : '',
-    });
 
     if (!file) return;
 
@@ -149,15 +143,14 @@ function ConvertFromCsv() {
       const content = csvTools.parseCSV(text, delimiter);
       const [header] = content;
 
-      console.log('header:', header);
-      console.log('content:', content);
-
       setCsvData({
         delimiter,
         content,
       });
       setFormFields({
         ...formFields,
+        file: file,
+        fileName: file ? file.name : '',
         columns: header,
       });
     });

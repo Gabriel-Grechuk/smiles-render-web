@@ -25,6 +25,7 @@ function CSVViewer({
   selectedColumns: {
     name: string;
     color: string;
+    justifyContent: 'flex-start';
   }[];
 }) {
   const [head, ...tableData] = data;
@@ -43,13 +44,14 @@ function CSVViewer({
     <div
       style={{
         width: '100%',
-        height: '450px',
+        maxHeight: '300px',
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
-        overflow: 'scroll',
+        padding: '50px',
+        overflowY: 'scroll',
       }}
     >
       {data.length ? (
