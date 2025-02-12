@@ -9,7 +9,7 @@ const cellStyle: React.CSSProperties = {
 const headerStyle: React.CSSProperties = {
   ...cellStyle,
   fontWeight: 'bold',
-  backgroundColor: '#c9c9c9',
+  backgroundColor: '#ffd230',
 };
 
 const tableStyle: React.CSSProperties = {
@@ -31,12 +31,13 @@ function CSVViewer({
 
   const columnsHighlight: Record<number, string> = {};
 
-  for (const highLight of selectedColumns) {
-    const column = head.findIndex((item) => item === highLight.name);
-    Object.assign(columnsHighlight, {
-      [column]: highLight.color,
-    });
-  }
+  if (data.length)
+    for (const highLight of selectedColumns) {
+      const column = head.findIndex((item) => item === highLight.name);
+      Object.assign(columnsHighlight, {
+        [column]: highLight.color,
+      });
+    }
 
   return (
     <div
