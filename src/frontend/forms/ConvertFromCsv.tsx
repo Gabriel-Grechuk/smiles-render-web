@@ -6,7 +6,6 @@ import * as csvTools from '../tools/csv';
 import { downloadBlob, zip } from '../tools/helpers';
 import CSVViewer from '../components/CSVViewer';
 import Select from 'react-select';
-import { file } from 'bun';
 
 const inputStyles: React.CSSProperties = {
   padding: '5px',
