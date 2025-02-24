@@ -185,3 +185,7 @@ h2 {
   color: red;
   font-size: 12px;
 }
+
+.text-input:focus {
+  border-color: #2684ff;
+}

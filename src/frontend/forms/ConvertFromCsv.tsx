@@ -25,6 +25,12 @@ const smilesImageStyle: React.CSSProperties = {
   width: '100%',
 };
 
+const inputFields: React.CSSProperties = {
+  margin: '2px',
+  minHeight: '25px',
+  width: '250px',
+};
+
 interface ConvertFields {
   file: File | null;
   fileName: string;
@@ -279,6 +285,7 @@ function ConvertFromCsv() {
                 type="text"
                 name="csv-format"
                 value={formFields.imageFormat}
+                style={inputFields}
                 onChange={(e) => {
                   setFormFields({
                     ...formFields,
@@ -298,6 +305,8 @@ function ConvertFromCsv() {
                 type="text"
                 name="fname"
                 value={csvData.delimiter}
+                style={inputFields}
+                className="text-input"
                 onChange={(e) => {
                   setCsvData({
                     ...csvData,
