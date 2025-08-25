@@ -6,7 +6,7 @@ from converter import (
 )
 from tools import read_csv
 from base64 import b64decode
-import urllib.request as request
+import urllib.request
 
 
 app = Flask(__name__)
@@ -156,11 +156,13 @@ def render_base64_smiles(smiles: str):
         return f'Could not convert smiles: "{err}"', 412
 
 
-@app.route("/predict/<string:smiles>", methods=["GET"])
+@app.route("/predict/base64/<string:smiles>", methods=["GET"])
 def predict(smiles: str):
     if not smiles:
         return f"No Smile to predic"
     else:
-        return request.urlopen(
-            f"https://stoptox.mml.unc.edu/predict?smiles={smiles}"
+        decoded_smiles = b64decode(smiles.encode("utf-8")).decode("utf-8")
+
+        return urllib.request.urlopen(
+            f"https://stoptox.mml.unc.edu/predict?smiles={decoded_smiles}", timeout=120
         ).read()
