@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import DirectInput from './forms/DirectInput';
 import ConvertFromCsv from './forms/ConvertFromCsv';
+import PredictWithStopTox from './forms/PredictWithStopTox';
 
 const contentStyle: React.CSSProperties = {
   display: 'flex',
@@ -19,6 +20,7 @@ function App() {
       <section style={contentStyle}>
         <DirectInput />
         <ConvertFromCsv />
+        <PredictWithStopTox />
       </section>
       <Footer />
     </>
